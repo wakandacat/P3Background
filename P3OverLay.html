@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+        <title>P3Wallpaper</title>
+
+        <meta charset="utf-8">
+        <meta name="description" content="Persona 3 Background">
+        <meta name="author" content="Ellena Tzavelas">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+        <link rel="shortcut icon" type="image/jpg" href=""/>
+
+        <style>
+            body {
+                font-family: 'Trebuchet MS', sans-serif;
+                margin: 0px;
+                overflow-y: hidden; /* Hide vertical scrollbar */
+                overflow-x: hidden; /* Hide horizontal scrollbar */
+            }
+            #background{
+                position: absolute;
+                z-index: -1;
+            }
+            #moonBackImage{
+                position: relative;
+                z-index: 0;
+            }
+            #moonPhase{
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+            }
+            #currDate{
+                position: absolute;
+                top: -30px;
+                width: 97%;
+                text-align: right;
+                z-index: 2;
+                font-size: 4em;
+                color: #246185;
+                display: flex;
+                justify-content: flex-end;
+            }
+            #currTime{
+                position: absolute;
+                top: 40px;
+                width: 97%;
+                text-align: right;
+                z-index: 2;
+                font-size: 4em;
+                color: #ffffff;
+                text-shadow: 7px 5px #246185;
+            }
+            #weekday{
+                color:#246185;
+            }
+            #next{
+                position: absolute;
+                top: 130px;
+                width: 91%;
+                text-align: right;
+                z-index: 2;
+                font-size: 3em;
+                color: #d9fdff;
+                text-shadow: 3px 3px #246185;
+                display: block;
+            }
+            #daysUntilFull{
+                position: absolute;
+                top: 170px;
+                width: 93%;
+                text-align: right;
+                z-index: 2;
+                font-size: 4em;
+                color: #9efdff;
+                text-shadow: 3px 3px #246185;
+            }
+        </style>
+
+    </head>
+    <body>     
+        <img id="background" alt="the background corresponding to the time">  
+        <img id="mainBackImage" src="Resources/blueBack.png" alt="the main UI">
+        <img id="moonPhase" alt="the current phase of the moon">
+        <div id="currDate">
+            <p></p><p id="weekday"></p>
+        </div>
+        <div id="currTime">
+            <p></p>
+        </div>
+        <div id="next">
+            <p><b>Next:</b></p>
+        </div>
+        <div id="daysUntilFull">
+            <p></p>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+
+        //recalculate the date and time every second
+        setInterval(getDateTime,1000);
+
+        //---------------Screen Sizing----------------------------------------------
+        var screenWidth = window.screen.availWidth;
+        var screenHeight = window.screen.availHeight;
+
+        var x = document.body;
+        x.setAttribute("width",screenWidth);
+        x.setAttribute("height",screenHeight);
+
+        //main function
+        function getDateTime(){
+
+            //----------Current Date Text--------------------------------------------------
+            var time = new Date();
+            var day = time.getDate();
+            var month = time.getMonth() + 1;
+            var dayOfWeekInt = time.getDay();
+            var dayOfWeekStr;
+
+            //get the string of the current day of the week
+            switch(dayOfWeekInt){
+                case 0:
+                    dayOfWeekStr = "Su";
+                break;
+                case 1:
+                    dayOfWeekStr = "M";
+                break;
+                case 2:
+                    dayOfWeekStr = "Tu";
+                break;
+                case 3:
+                    dayOfWeekStr = "W";
+                break;
+                case 4:
+                    dayOfWeekStr = "Th";
+                break;
+                case 5:
+                    dayOfWeekStr = "F";
+                break;
+                case 6:
+                    dayOfWeekStr = "Sa";
+                break;
+                default:
+                    dayOfWeekStr = "Su";
+            }
+
+            //place the date in the html
+            const dateText = document.getElementById("currDate").children;
+            dateText[0].innerHTML = month + " / " + day + " • "; 
+            dateText[1].innerHTML = dayOfWeekStr;
+            
+            if(dayOfWeekStr == "Sa"){
+                document.getElementById("weekday").style.color = "#18179d";
+            } else if(dayOfWeekStr == "Su"){
+                document.getElementById("weekday").style.color = "#d5370a";
+            }
+
+
+            //make it bold
+            document.getElementById("currDate").style.fontWeight = 900;
+
+            //---------------Time of Day Text--------------------------------------------
+            var hour = time.getHours();
+            var timeOfDayStr;
+
+            if(hour >= 0 && hour < 1){
+                timeOfDayStr = "Dark Hour";
+                //change all the UI to be green instead of blue
+                //ui element shapes
+                const greenBack = document.getElementById("mainBackImage");
+                greenBack.setAttribute("src","Resources/greenBack.png");
+                //current date 
+                const date = document.getElementById("currDate");
+                date.style.color = "#0b2607";
+                //current time of day 
+                const time = document.getElementById("currTime");
+                time.style.color = "#bff9c3";
+                time.style.textShadow = "7px 5px #0b2607";
+                //next 
+                const next = document.getElementById("next");
+                next.style.color = "#ffffff";
+                next.style.textShadow = "3px 3px #0b2607";
+                //days until full 
+                const days = document.getElementById("daysUntilFull");
+                days.style.color = "#78fe8d";
+                days.style.textShadow = "3px 3px #0b2607";
+                //background image
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/tartarus.png");
+            } else if(hour >= 1 && hour < 6){
+                timeOfDayStr = "Early Morning";
+                //change all the UI to be blue again
+                //maing ui element shapes
+                const blueBack = document.getElementById("mainBackImage");
+                blueBack.setAttribute("src","Resources/blueBack.png");
+                //current date 
+                const date = document.getElementById("currDate");
+                date.style.color = "#246185";
+                //current time of day 
+                const time = document.getElementById("currTime");
+                time.style.color ="#ffffff";
+                time.style.textShadow = "7px 5px #246185";
+                //next 
+                const next = document.getElementById("next");
+                next.style.color = "#d9fdff";
+                next.style.textShadow = "3px 3px #246185";
+                //days until full 
+                const days = document.getElementById("daysUntilFull");
+                days.style.color = "#9efdff";
+                days.style.textShadow = "3px 3px #246185";
+                //background image
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/earlyMorning.png");
+            } else if(hour >= 6 && hour < 11){
+                timeOfDayStr = "Morning";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/morning.png");
+            } else if(hour >= 11 && hour < 12){
+                timeOfDayStr = "Lunch";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/lunchTime.png");
+            } else if(hour >= 12 && hour < 15){
+                timeOfDayStr = "Daytime";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/daytime.png");
+            } else if(hour >= 15 && hour < 16){
+                timeOfDayStr = "After School";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/afterSchool.png");
+            } else if(hour >= 16 && hour < 18){
+                timeOfDayStr = "Afternoon";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/afternoon.png");
+            } else if(hour >= 18 && hour < 21){
+                timeOfDayStr = "Evening";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/evening.png");
+            }else if(hour >= 21 && hour < 24){
+                timeOfDayStr = "Late Night";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/lateNight.png");
+            } else {
+                timeOfDayStr = "Early Morning";
+            }
+            
+            //place the time of day in the html
+            const timeOfDayText = document.getElementById("currTime").children;
+            timeOfDayText[0].innerHTML = timeOfDayStr; 
+
+            //make it bold
+            document.getElementById("currTime").style.fontWeight = 900;
+
+            //--------------Lunar Phases-------------------------------------------------
+            //using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases
+            //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
+
+
+            //get the img to replace with the moon phase
+            var moonImg = document.getElementById("moonPhase");
+
+            //startof copied code------------
+            const getJulianDate = (date = new Date()) => {
+            const time = date.getTime();
+            const tzoffset = date.getTimezoneOffset()
+            
+            return (time / 86400000) - (tzoffset / 1440) + 2440587.5;
+            }
+
+            const LUNAR_MONTH = 29.530588853;
+            const getLunarAge = (date = new Date()) => {
+            const percent = getLunarAgePercent(date);
+            const age = percent * LUNAR_MONTH;
+            return age;
+            }
+
+            const getLunarAgePercent = (date = new Date()) => {
+            return normalize((getJulianDate(date) - 2451550.1) / LUNAR_MONTH);
+            }
+
+            const normalize = value => {
+            value = value - Math.floor(value);
+            if (value < 0)
+                value = value + 1
+            return value;
+            }
+          
+            //the important stuff
+            const getLunarPhase = (date = new Date()) => {
+            const age = getLunarAge(date);
+            //console.log(age);
+            if (age < 1.84566){
+                moonImg.setAttribute("src","Resources/newMoon.png");
+                return "New";
+            }
+            else if (age < 3.53699){
+                moonImg.setAttribute("src","Resources/extraMoon2.png");
+                return "Sliver Left";
+            }
+            else if (age < 5.53699){
+                moonImg.setAttribute("src","Resources/waxingMoonCrescent.png");
+                return "Waxing Crescent";
+            }
+            else if (age < 7.22831){
+                moonImg.setAttribute("src","Resources/almostHalfAgain1.png");
+                return "Almost Half";
+            }
+            else if (age < 9.22831){
+                moonImg.setAttribute("src","Resources/halfMoonRight.png");
+                return "First Quarter";
+            }
+            else if (age < 10.72831){
+                moonImg.setAttribute("src","Resources/almostMoonHalfRight.png");
+                return "Past Half";
+            }
+            else if (age < 12.91963){
+                moonImg.setAttribute("src","Resources/waxingMoonGibbous.png");
+                return "Waxing Gibbous";
+            }
+            else if (age < 15.61963){
+                moonImg.setAttribute("src","Resources/sliverMoonRight.png");
+                return "Almost Full";
+            }
+            else if (age < 16.61096){
+                moonImg.setAttribute("src","Resources/fullMoon.png");
+                return "Full";
+            }
+            else if (age < 18.30228){
+                moonImg.setAttribute("src","Resources/sliverMoonLeft.png");
+                return "Past Full";
+            }
+            else if (age < 20.30228){
+                moonImg.setAttribute("src","Resources/waningMoonGibbous.png");
+                return "Waning Gibbous";
+            }
+            else if (age < 21.79361){
+                moonImg.setAttribute("src","Resources/almostMoonHalfLeft.png");
+                return "Almost Half";
+            }
+            else if (age < 23.99361){
+                moonImg.setAttribute("src","Resources/halfMoonLeft.png");
+                return "Last Quarter";
+            }
+            else if (age < 25.99361){
+                moonImg.setAttribute("src","Resources/almostHalfAgain2.png");
+                return "Sliver Right";
+            }
+            else if (age < 27.68493){
+                moonImg.setAttribute("src","Resources/waningMoonCrescent.png");
+                return "Waning Crescent";
+            }
+            else if (age < 29.68493){
+                moonImg.setAttribute("src","Resources/extraMoon1.png");
+                return "Almost New";
+            }
+            moonImg.setAttribute("src","Resources/newMoon.png");
+            return "New";
+            }
+            //endof copied code------------
+
+            const currPhase = getLunarPhase();
+
+            //get the amount of days until next full moon
+            var daysUntilFull = (LUNAR_MONTH + 16) - getLunarAge();
+            daysUntilFull = Math.floor(daysUntilFull);
+
+            //place the amount of days in the html
+            const amountDays = document.getElementById("daysUntilFull").children;
+
+            const getNext = document.getElementById("next");
+
+            //if its a notable moon phase, then spell it out and hide "next"
+            if(getLunarPhase() == "Full"){
+                amountDays[0].innerHTML = "Full"; 
+                document.getElementById("daysUntilFull").style.color = "white";
+                getNext.style.display = "none";
+            } else if (getLunarPhase() == "New"){
+                amountDays[0].innerHTML = "New"; 
+                document.getElementById("daysUntilFull").style.color = "white";
+                getNext.style.display = "none";
+            }else if (getLunarPhase() == "First Quarter" || getLunarPhase() == "Last Quarter"){
+                amountDays[0].innerHTML = "Half"; 
+                document.getElementById("daysUntilFull").style.color = "white";
+                getNext.style.display = "none";
+            } else {
+                amountDays[0].innerHTML = daysUntilFull + " /"; 
+            }
+
+            //make it bold
+            document.getElementById("daysUntilFull").style.fontWeight = 900;
+        }    
+
+
+    </script>
+
+</html>

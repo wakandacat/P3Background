@@ -288,84 +288,118 @@
             return value;
             }
           
+
+            //get the amount of days until next full moon
+            var daysUntilFull; 
+
             //the important stuff
             const getLunarPhase = (date = new Date()) => {
             const age = getLunarAge(date);
-            //console.log(age);
-            if (age < 1.84566){
+            console.log(age);
+            if (age < 0.5){ //0
                 moonImg.setAttribute("src","Resources/newMoon.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "New";
             }
-            else if (age < 3.53699){
+            else if (age < 3.2){
                 moonImg.setAttribute("src","Resources/extraMoon2.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Sliver Left";
             }
-            else if (age < 5.53699){
+            else if (age < 4.2){ //3.7
                 moonImg.setAttribute("src","Resources/waxingMoonCrescent.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Waxing Crescent";
             }
-            else if (age < 7.22831){
+            else if (age < 6.9){
                 moonImg.setAttribute("src","Resources/almostHalfAgain1.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Almost Half";
             }
-            else if (age < 9.22831){
+            else if (age < 7.9){ //7.4
                 moonImg.setAttribute("src","Resources/halfMoonRight.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "First Quarter";
             }
-            else if (age < 10.72831){
+            else if (age < 10.6){
                 moonImg.setAttribute("src","Resources/almostMoonHalfRight.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Past Half";
             }
-            else if (age < 12.91963){
+            else if (age < 11.6){ //11.1
                 moonImg.setAttribute("src","Resources/waxingMoonGibbous.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Waxing Gibbous";
             }
-            else if (age < 15.61963){
+            else if (age < 14){
                 moonImg.setAttribute("src","Resources/sliverMoonRight.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Almost Full";
             }
-            else if (age < 16.61096){
+            else if (age < 15){ //14.5 is full moon
                 moonImg.setAttribute("src","Resources/fullMoon.png");
+                daysUntilFull = 0;
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Full";
             }
-            else if (age < 18.30228){
+            else if (age < 18){
                 moonImg.setAttribute("src","Resources/sliverMoonLeft.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Past Full";
             }
-            else if (age < 20.30228){
+            else if (age < 19){ //18.5
                 moonImg.setAttribute("src","Resources/waningMoonGibbous.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Waning Gibbous";
             }
-            else if (age < 21.79361){
+            else if (age < 21.6){
                 moonImg.setAttribute("src","Resources/almostMoonHalfLeft.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Almost Half";
             }
-            else if (age < 23.99361){
+            else if (age < 22.6){ //22.1
                 moonImg.setAttribute("src","Resources/halfMoonLeft.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Last Quarter";
             }
-            else if (age < 25.99361){
+            else if (age < 25.3){
                 moonImg.setAttribute("src","Resources/almostHalfAgain2.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Sliver Right";
             }
-            else if (age < 27.68493){
+            else if (age < 26.3){ //25.8
                 moonImg.setAttribute("src","Resources/waningMoonCrescent.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Waning Crescent";
             }
-            else if (age < 29.68493){
+            else if (age < 29){
                 moonImg.setAttribute("src","Resources/extraMoon1.png");
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.floor(daysUntilFull);
                 return "Almost New";
             }
             moonImg.setAttribute("src","Resources/newMoon.png");
+            daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+            daysUntilFull = Math.floor(daysUntilFull);
             return "New";
             }
             //endof copied code------------
 
             const currPhase = getLunarPhase();
-
-            //get the amount of days until next full moon
-            var daysUntilFull = (LUNAR_MONTH + 16) - getLunarAge();
-            daysUntilFull = Math.floor(daysUntilFull);
 
             //place the amount of days in the html
             const amountDays = document.getElementById("daysUntilFull").children;

@@ -299,102 +299,102 @@
             if (age < 0.5){ //0
                 moonImg.setAttribute("src","Resources/newMoon.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "New";
             }
             else if (age < 3.2){
                 moonImg.setAttribute("src","Resources/extraMoon2.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Sliver Left";
             }
             else if (age < 4.2){ //3.7
                 moonImg.setAttribute("src","Resources/waxingMoonCrescent.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Waxing Crescent";
             }
             else if (age < 6.9){
                 moonImg.setAttribute("src","Resources/almostHalfAgain1.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Almost Half";
             }
             else if (age < 7.9){ //7.4
                 moonImg.setAttribute("src","Resources/halfMoonRight.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "First Quarter";
             }
             else if (age < 10.6){
                 moonImg.setAttribute("src","Resources/almostMoonHalfRight.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Past Half";
             }
             else if (age < 11.6){ //11.1
                 moonImg.setAttribute("src","Resources/waxingMoonGibbous.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Waxing Gibbous";
             }
             else if (age < 14){
                 moonImg.setAttribute("src","Resources/sliverMoonRight.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Almost Full";
             }
             else if (age < 15){ //14.5 is full moon
                 moonImg.setAttribute("src","Resources/fullMoon.png");
-                daysUntilFull = 0;
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Full";
             }
             else if (age < 18){
                 moonImg.setAttribute("src","Resources/sliverMoonLeft.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Past Full";
             }
             else if (age < 19){ //18.5
                 moonImg.setAttribute("src","Resources/waningMoonGibbous.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Waning Gibbous";
             }
             else if (age < 21.6){
                 moonImg.setAttribute("src","Resources/almostMoonHalfLeft.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Almost Half";
             }
             else if (age < 22.6){ //22.1
                 moonImg.setAttribute("src","Resources/halfMoonLeft.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Last Quarter";
             }
             else if (age < 25.3){
                 moonImg.setAttribute("src","Resources/almostHalfAgain2.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Sliver Right";
             }
             else if (age < 26.3){ //25.8
                 moonImg.setAttribute("src","Resources/waningMoonCrescent.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Waning Crescent";
             }
             else if (age < 29){
                 moonImg.setAttribute("src","Resources/extraMoon1.png");
                 daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.floor(daysUntilFull);
+                daysUntilFull = Math.round(daysUntilFull);
                 return "Almost New";
             }
             moonImg.setAttribute("src","Resources/newMoon.png");
             daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-            daysUntilFull = Math.floor(daysUntilFull);
+            daysUntilFull = Math.round(daysUntilFull);
             return "New";
             }
             //endof copied code------------

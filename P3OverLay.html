@@ -111,18 +111,12 @@
         x.setAttribute("width",screenWidth);
         x.setAttribute("height",screenHeight);
 
-        //main function
-        function getDateTime(){
 
-            //----------Current Date Text--------------------------------------------------
-            var time = new Date();
-            var day = time.getDate();
-            var month = time.getMonth() + 1;
-            var dayOfWeekInt = time.getDay();
-            var dayOfWeekStr;
+        //function to get the short form text of the current weekday
+        function getDayOfWeek(dayOfWeekInt){
 
-            //get the string of the current day of the week
-            switch(dayOfWeekInt){
+              //get the string of the current day of the week
+              switch(dayOfWeekInt){
                 case 0:
                     dayOfWeekStr = "Su";
                 break;
@@ -148,25 +142,13 @@
                     dayOfWeekStr = "Su";
             }
 
-            //place the date in the html
-            const dateText = document.getElementById("currDate").children;
-            dateText[0].innerHTML = month + " / " + day + " • "; 
-            dateText[1].innerHTML = dayOfWeekStr;
-            
-            if(dayOfWeekStr == "Sa"){
-                document.getElementById("weekday").style.color = "#18179d";
-            } else if(dayOfWeekStr == "Su"){
-                document.getElementById("weekday").style.color = "#d5370a";
-            }
+            return dayOfWeekStr;
+        }
 
+        //function to get the time of day text depending on the hour
+        function getCurrentHourOfDay(hour, dayOfWeekInt){
 
-            //make it bold
-            document.getElementById("currDate").style.fontWeight = 900;
-
-            //---------------Time of Day Text--------------------------------------------
-            var hour = time.getHours();
-            var timeOfDayStr;
-
+            hour = 0;
             if(hour >= 0 && hour < 1){
                 timeOfDayStr = "Dark Hour";
                 //change all the UI to be green instead of blue
@@ -176,6 +158,7 @@
                 //current date 
                 const date = document.getElementById("currDate");
                 date.style.color = "#0b2607";
+                document.getElementById("weekday").style.color = "#0b2607";
                 //current time of day 
                 const time = document.getElementById("currTime");
                 time.style.color = "#bff9c3";
@@ -215,26 +198,34 @@
                 //background image
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/earlyMorning.png");
-            } else if(hour >= 6 && hour < 11){
+            } else if(hour >= 6 && hour < 11 && dayOfWeekInt != 7){ //morning on all days except sunday
                 timeOfDayStr = "Morning";
                 const back = document.getElementById("background");
-                back.setAttribute("src","Resources/morning.png");
-            } else if(hour >= 11 && hour < 12){
+                back.setAttribute("src","Resources/morning.png");             
+            } else if(hour >= 6 && hour < 11 && dayOfWeekInt == 7){ //morning on sundays
+                timeOfDayStr = "Morning";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/weekends.png");
+            } else if(hour >= 11 && hour < 12 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
                 timeOfDayStr = "Lunch";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/lunchTime.png");
-            } else if(hour >= 12 && hour < 15){
+            } else if(hour >= 12 && hour < 15 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
                 timeOfDayStr = "Daytime";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/daytime.png");
-            } else if(hour >= 15 && hour < 16){
+            } else if(hour >= 15 && hour < 16 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
                 timeOfDayStr = "After School";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/afterSchool.png");
-            } else if(hour >= 16 && hour < 18){
+            } else if(hour >= 16 && hour < 18 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
                 timeOfDayStr = "Afternoon";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/afternoon.png");
+            } else if(hour >= 11 && hour < 15 && dayOfWeekInt == 6 || dayOfWeekInt == 7){ //only saturday and sunday
+                timeOfDayStr = "Daytime";
+                const back = document.getElementById("background");
+                back.setAttribute("src","Resources/weekendDay.png");
             } else if(hour >= 18 && hour < 21){
                 timeOfDayStr = "Evening";
                 const back = document.getElementById("background");
@@ -247,26 +238,62 @@
                 timeOfDayStr = "Early Morning";
             }
             
-            //place the time of day in the html
+            return timeOfDayStr;
+        }
+
+        // //calculate the amount of days until the full moon
+        // function getDaysUntilFullMoon(age){
+            
+        // }
+
+
+        //main function
+        function getDateTime(){
+
+            //---------------GETTING THE CURRENT DATE (EX. 7 / 15 . Sa)----------------------
+            var time = new Date();
+            var day = time.getDate(); //0 to 31
+            var month = time.getMonth() + 1; //0 to 11 (add +1 to get correct month)
+            var dayOfWeekInt = time.getDay(); //1, 2, 3, 4, 5, 6, 7
+            var dayOfWeekStr = getDayOfWeek(dayOfWeekInt); //M, T, W, Th, F, Sa, Su
+          
+            //place the date in the html containers
+            const dateText = document.getElementById("currDate").children;
+            dateText[0].innerHTML = month + " / " + day + " • "; 
+            dateText[1].innerHTML = dayOfWeekStr;
+            
+            //there are specific text colors for weekend days
+            if(dayOfWeekStr == "Sa"){
+                document.getElementById("weekday").style.color = "#18179d";
+            } else if(dayOfWeekStr == "Su"){
+                document.getElementById("weekday").style.color = "#d5370a";
+            }
+
+            //make the text bold
+            document.getElementById("currDate").style.fontWeight = 900;
+
+            //---------------GETTING THE TIME OF DAY TEXT (EX. Daytime)--------------------------------------------
+            var hour = time.getHours();
+            var timeOfDayStr = getCurrentHourOfDay(hour, dayOfWeekInt);
+          
+            //place the time of day in the html container
             const timeOfDayText = document.getElementById("currTime").children;
             timeOfDayText[0].innerHTML = timeOfDayStr; 
 
-            //make it bold
+            //make the text bold
             document.getElementById("currTime").style.fontWeight = 900;
 
-            //--------------Lunar Phases-------------------------------------------------
+            //--------------GETTING THE LUNAR PHASES-------------------------------------------------
             //using this library's functions: https://github.com/jasonsturges/lunarphase-js to get the lunarphases
             //https://jasonsturges.medium.com/moons-lunar-phase-in-javascript-a5219acbfe6e#:~:text=Using%20Julian%20date%2C%20you%20can%20calculate%20the%20current%20phase%20of,time%20between%20two%20identical%20syzygies.
-
 
             //get the img to replace with the moon phase
             var moonImg = document.getElementById("moonPhase");
 
-            //startof copied code------------
+            //start of copied code------------
             const getJulianDate = (date = new Date()) => {
             const time = date.getTime();
-            const tzoffset = date.getTimezoneOffset()
-            
+            const tzoffset = date.getTimezoneOffset()         
             return (time / 86400000) - (tzoffset / 1440) + 2440587.5;
             }
 
@@ -290,118 +317,118 @@
           
 
             //get the amount of days until next full moon
-            var daysUntilFull; 
-
-            //the important stuff
             const getLunarPhase = (date = new Date()) => {
             const age = getLunarAge(date);
-            console.log(age);
-            if (age < 0.5){ //0
-                moonImg.setAttribute("src","Resources/newMoon.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "New";
-            }
-            else if (age < 3.2){
-                moonImg.setAttribute("src","Resources/extraMoon2.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Sliver Left";
-            }
-            else if (age < 4.2){ //3.7
-                moonImg.setAttribute("src","Resources/waxingMoonCrescent.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Waxing Crescent";
-            }
-            else if (age < 6.9){
-                moonImg.setAttribute("src","Resources/almostHalfAgain1.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Almost Half";
-            }
-            else if (age < 7.9){ //7.4
-                moonImg.setAttribute("src","Resources/halfMoonRight.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "First Quarter";
-            }
-            else if (age < 10.6){
-                moonImg.setAttribute("src","Resources/almostMoonHalfRight.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Past Half";
-            }
-            else if (age < 11.6){ //11.1
-                moonImg.setAttribute("src","Resources/waxingMoonGibbous.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Waxing Gibbous";
-            }
-            else if (age < 14){
-                moonImg.setAttribute("src","Resources/sliverMoonRight.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Almost Full";
-            }
-            else if (age < 15){ //14.75 is full moon
-                moonImg.setAttribute("src","Resources/fullMoon.png");
-                daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Full";
-            }
-            else if (age < 18){
-                moonImg.setAttribute("src","Resources/sliverMoonLeft.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Past Full";
-            }
-            else if (age < 19){ //18.5
-                moonImg.setAttribute("src","Resources/waningMoonGibbous.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Waning Gibbous";
-            }
-            else if (age < 21.6){
-                moonImg.setAttribute("src","Resources/almostMoonHalfLeft.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Almost Half";
-            }
-            else if (age < 22.6){ //22.1
-                moonImg.setAttribute("src","Resources/halfMoonLeft.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Last Quarter";
-            }
-            else if (age < 25.3){
-                moonImg.setAttribute("src","Resources/almostHalfAgain2.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Sliver Right";
-            }
-            else if (age < 26.3){ //25.8
-                moonImg.setAttribute("src","Resources/waningMoonCrescent.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Waning Crescent";
-            }
-            else if (age < 29){
-                moonImg.setAttribute("src","Resources/extraMoon1.png");
-                daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-                daysUntilFull = Math.round(daysUntilFull);
-                return "Almost New";
-            }
-            moonImg.setAttribute("src","Resources/newMoon.png");
-            daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
-            daysUntilFull = Math.round(daysUntilFull);
-            return "New";
-            }
-            //endof copied code------------
+            // console.log(age);
 
-            const currPhase = getLunarPhase();
+            //var daysUntilFull = getDaysUntilFullMoon(age); 
 
-            //place the amount of days in the html
+                if (age < 0.5){ //0
+                    moonImg.setAttribute("src","Resources/newMoon.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "New";
+                }
+                else if (age < 3.2){
+                    moonImg.setAttribute("src","Resources/extraMoon2.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Sliver Left";
+                }
+                else if (age < 4.2){ //3.7
+                    moonImg.setAttribute("src","Resources/waxingMoonCrescent.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Waxing Crescent";
+                }
+                else if (age < 6.9){
+                    moonImg.setAttribute("src","Resources/almostHalfAgain1.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Almost Half";
+                }
+                else if (age < 7.9){ //7.4
+                    moonImg.setAttribute("src","Resources/halfMoonRight.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "First Quarter";
+                }
+                else if (age < 10.6){
+                    moonImg.setAttribute("src","Resources/almostMoonHalfRight.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Past Half";
+                }
+                else if (age < 11.6){ //11.1
+                    moonImg.setAttribute("src","Resources/waxingMoonGibbous.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Waxing Gibbous";
+                }
+                else if (age < 14){
+                    moonImg.setAttribute("src","Resources/sliverMoonRight.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Almost Full";
+                }
+                else if (age < 15){ //14.75 is full moon
+                    moonImg.setAttribute("src","Resources/fullMoon.png");
+                    daysUntilFull = (LUNAR_MONTH/2) - getLunarAge();
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Full";
+                }
+                else if (age < 18){
+                    moonImg.setAttribute("src","Resources/sliverMoonLeft.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Past Full";
+                }
+                else if (age < 19){ //18.5
+                    moonImg.setAttribute("src","Resources/waningMoonGibbous.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Waning Gibbous";
+                }
+                else if (age < 21.6){
+                    moonImg.setAttribute("src","Resources/almostMoonHalfLeft.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Almost Half";
+                }
+                else if (age < 22.6){ //22.1
+                    moonImg.setAttribute("src","Resources/halfMoonLeft.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Last Quarter";
+                }
+                else if (age < 25.3){
+                    moonImg.setAttribute("src","Resources/almostHalfAgain2.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Sliver Right";
+                }
+                else if (age < 26.3){ //25.8
+                    moonImg.setAttribute("src","Resources/waningMoonCrescent.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Waning Crescent";
+                }
+                else if (age < 29){
+                    moonImg.setAttribute("src","Resources/extraMoon1.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "Almost New";
+                } else {
+                    moonImg.setAttribute("src","Resources/newMoon.png");
+                    daysUntilFull = (LUNAR_MONTH - getLunarAge()) + (LUNAR_MONTH/2);
+                    daysUntilFull = Math.round(daysUntilFull);
+                    return "New";
+                }
+
+            }
+
+
+            //place the amount of days in the html container
             const amountDays = document.getElementById("daysUntilFull").children;
 
             const getNext = document.getElementById("next");

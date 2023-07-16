@@ -100,6 +100,9 @@
 
     <script type="text/javascript">
 
+        //calculate the date and time
+        getDateTime();
+
         //recalculate the date and time every second
         setInterval(getDateTime,1000);
 
@@ -197,31 +200,31 @@
                 //background image
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/earlyMorning.png");
-            } else if(hour >= 6 && hour < 11 && dayOfWeekInt != 7){ //morning on all days except sunday
+            } else if(hour >= 6 && hour < 11 && dayOfWeekInt != 0){ //morning on all days except sunday
                 timeOfDayStr = "Morning";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/morning.png");             
-            } else if(hour >= 6 && hour < 11 && dayOfWeekInt == 7){ //morning on sundays
+            } else if(hour >= 6 && hour < 11 && dayOfWeekInt == 0){ //morning on sundays
                 timeOfDayStr = "Morning";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/weekends.png");
-            } else if(hour >= 11 && hour < 12 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
+            } else if(hour >= 11 && hour < 12 && dayOfWeekInt != 6 && dayOfWeekInt != 0){ //all days except saturday and sunday
                 timeOfDayStr = "Lunch";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/lunchTime.png");
-            } else if(hour >= 12 && hour < 15 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
+            } else if(hour >= 12 && hour < 15 && dayOfWeekInt != 6 && dayOfWeekInt != 0){ //all days except saturday and sunday
                 timeOfDayStr = "Daytime";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/daytime.png");
-            } else if(hour >= 15 && hour < 16 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
+            } else if(hour >= 15 && hour < 16 && dayOfWeekInt != 6 && dayOfWeekInt != 0){ //all days except saturday and sunday
                 timeOfDayStr = "After School";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/afterSchool.png");
-            } else if(hour >= 16 && hour < 18 && dayOfWeekInt != 6 && dayOfWeekInt != 7){ //all days except saturday and sunday
+            } else if(hour >= 16 && hour < 18 && dayOfWeekInt != 6 && dayOfWeekInt != 0){ //all days except saturday and sunday
                 timeOfDayStr = "Afternoon";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/afternoon.png");
-            } else if(hour >= 11 && hour < 18 && dayOfWeekInt == 6 || dayOfWeekInt == 7){ //only saturday and sunday
+            } else if(hour >= 11 && hour < 18 && dayOfWeekInt == 6 || dayOfWeekInt == 0){ //only saturday and sunday
                 timeOfDayStr = "Daytime";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/weekendDay.png");
@@ -253,7 +256,7 @@
             var time = new Date();
             var day = time.getDate(); //0 to 31
             var month = time.getMonth() + 1; //0 to 11 (add +1 to get correct month)
-            var dayOfWeekInt = time.getDay(); //1, 2, 3, 4, 5, 6, 7
+            var dayOfWeekInt = time.getDay(); //0, 1, 2, 3, 4, 5, 6 (STARTING AT SUNDAY = 0)
             var dayOfWeekStr = getDayOfWeek(dayOfWeekInt); //M, T, W, Th, F, Sa, Su
           
             //place the date in the html containers

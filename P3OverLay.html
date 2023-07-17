@@ -224,7 +224,9 @@
                 timeOfDayStr = "Afternoon";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/afternoon.png");
-            } else if(hour >= 11 && hour < 18 && dayOfWeekInt == 6 || dayOfWeekInt == 0){ //only saturday and sunday
+            } else if(hour >= 11 && hour < 18 && dayOfWeekInt == 6 || hour >= 11 && hour < 18 && dayOfWeekInt == 0){ //only saturday and sunday
+                //console.log("hi");
+                //console.log(hour);
                 timeOfDayStr = "Daytime";
                 const back = document.getElementById("background");
                 back.setAttribute("src","Resources/weekendDay.png");
